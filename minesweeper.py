@@ -223,7 +223,44 @@ class MinesweeperAI():
 
         self.knowledge.add(Sentence(sentence_set, count))
 
-        raise NotImplementedError
+        check(sentence_set)
+
+        new_sentences = set()
+
+        for sentence_1 in self.knowledge:
+            for sentence_2 in self.knowledge:
+                if sentence_1.cells != sentence_2.cells:
+                    if sentence_1.cells.issubset(sentence_2.cells):
+                        new_cells = set(sentence_2.cells)
+                        new_count = sentence_2.count
+                        for tuple in sentence_1.cells:
+                            new_cells.remove(tuple)
+                        new_count -= sentence_1.count
+                        new_sentences.add(Sentence(new_cells, new_count))
+                        check(sentence_1)
+                        check(sentence_2)
+                    else if sentence_2.cells.issubset(sentence_1.cells):
+                        new_cells = set(sentence_1.cells)
+                        new_count = sentence_1.count
+                        for tuple in sentence_2.cells:
+                            new_cells.remove(tuple)
+                        new_count -= sentence_2.count
+                        new_sentences.add(Sentence(new_cells, new_count))
+                        check(sentence_1)
+                        check(sentence_2)
+
+        for eachSentence in new_sentences:
+            self.knowledge.add(eachSentence)
+            check(eachSentence)
+
+
+    def check(self, checking_set):
+        if bool(checking_set.known_mines()):
+            for element in checking_set:
+                self.mines.add(element)
+        else if bool(checking_set.known_safes()):
+            for element in checking_set:
+                self.safes.add(element)
 
     def make_safe_move(self):
         """
