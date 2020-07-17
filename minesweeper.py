@@ -127,10 +127,15 @@ class Sentence():
         a cell is known to be a mine.
         """
 
+        to_be_removed = set()
+
         for eachCell in self.cells:
             if (cell == eachCell):
-                self.cells.remove(eachCell)
+                to_be_removed.add(eachCell)
                 self.count -= 1;
+
+        for eachCell in to_be_removed:
+            self.cells.remove(eachCell)
 
     def mark_safe(self, cell):
         """
@@ -138,10 +143,14 @@ class Sentence():
         a cell is known to be safe.
         """
 
+        to_be_removed = set()
+
         for eachCell in self.cells:
             if (cell == eachCell):
-                self.cells.remove(eachCell)
+                to_be_removed.add(eachCell)
 
+        for eachCell in to_be_removed:
+            self.cells.remove(eachCell)
 
 class MinesweeperAI():
     """
@@ -214,7 +223,7 @@ class MinesweeperAI():
 
         self.knowledge.add(Sentence(sentence_set, count))
 
-        raise NotImplementedError          
+        raise NotImplementedError
 
     def make_safe_move(self):
         """
