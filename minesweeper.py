@@ -101,6 +101,9 @@ class Sentence():
     def __str__(self):
         return f"{self.cells} = {self.count}"
 
+    def __hash__(self):
+        return hash(repr(self))
+
     def known_mines(self):
         """
         Returns the set of all cells in self.cells known to be mines.
@@ -252,8 +255,8 @@ class MinesweeperAI():
                         self.check(sentence_2)
 
         for eachSentence in new_sentences:
-            self.knowledge.add(eachSentence)
-            self.check(eachSentence.cells)
+            self.knowledge.append(eachSentence)
+            self.check(eachSentence)
 
 
     def check(self, checking_set):
