@@ -132,8 +132,8 @@ while True:
 
     # AI Move button
     aiButton = pygame.Rect(
-        (2 / 3) * width + BOARD_PADDING, (1 / 3) * height - 50,
-        (width / 3) - BOARD_PADDING * 2, 50
+        int((2 / 3) * width + BOARD_PADDING), int((1 / 3) * height - 50),
+        int((width / 3) - BOARD_PADDING * 2), 50
     )
     buttonText = mediumFont.render("AI Move", True, BLACK)
     buttonRect = buttonText.get_rect()
@@ -143,8 +143,8 @@ while True:
 
     # Reset button
     resetButton = pygame.Rect(
-        (2 / 3) * width + BOARD_PADDING, (1 / 3) * height + 20,
-        (width / 3) - BOARD_PADDING * 2, 50
+        int((2 / 3) * width + BOARD_PADDING), int((1 / 3) * height + 20),
+        int((width / 3) - BOARD_PADDING * 2), 50
     )
     buttonText = mediumFont.render("Reset", True, BLACK)
     buttonRect = buttonText.get_rect()
@@ -156,7 +156,7 @@ while True:
     text = "Lost" if lost else "Won" if game.mines == flags else ""
     text = mediumFont.render(text, True, WHITE)
     textRect = text.get_rect()
-    textRect.center = ((5 / 6) * width, (2 / 3) * height)
+    textRect.center = (int((5 / 6) * width), int((2 / 3) * height))
     screen.blit(text, textRect)
 
     move = None
