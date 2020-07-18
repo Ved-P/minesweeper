@@ -64,7 +64,7 @@ while True:
         # Title
         title = largeFont.render("Play Minesweeper", True, WHITE)
         titleRect = title.get_rect()
-        titleRect.center = ((width / 2), 50)
+        titleRect.center = (int(width / 2), 50)
         screen.blit(title, titleRect)
 
         # Rules
@@ -76,11 +76,11 @@ while True:
         for i, rule in enumerate(rules):
             line = smallFont.render(rule, True, WHITE)
             lineRect = line.get_rect()
-            lineRect.center = ((width / 2), 150 + 30 * i)
+            lineRect.center = (int(width / 2), 150 + 30 * i)
             screen.blit(line, lineRect)
 
         # Play game button
-        buttonRect = pygame.Rect((width / 4), (3 / 4) * height, width / 2, 50)
+        buttonRect = pygame.Rect(int(width / 4), int((3 / 4) * height), int(width / 2), 50)
         buttonText = mediumFont.render("Play Game", True, BLACK)
         buttonTextRect = buttonText.get_rect()
         buttonTextRect.center = buttonRect.center
