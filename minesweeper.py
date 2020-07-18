@@ -209,21 +209,23 @@ class MinesweeperAI():
 
         self.moves_made.add(cell)
 
-        mark_safe(cell)
+        self.mark_safe(cell)
 
         sentence_set = set()
 
         for i in [cell[0] - 1, cell[0], cell[0] + 1]:
             for j in [cell[1] - 1, cell[1], cell[1] + 1]:
-                if 0 <= i and i <= height - 1 and 0 <= j and j <= height - 1 and (i != cell[0] or j != cell[1]):
+                if 0 <= i and i <= self.height - 1 and 0 <= j and j <= self.width - 1 and (i != cell[0] or j != cell[1]):
                     if (i, j) in set(self.mines):
                         count -= 1
                     elif (i, j) not in set(self.safes):
                         sentence_set.add((i, j))
 
-        self.knowledge.add(Sentence(sentence_set, count))
+        my_sentence = Sentence(sentence_set, count)
 
-        check(sentence_set)
+        self.knowledge.append(my_sentence)
+
+        self.check(my_sentence)
 
         new_sentences = set()
 
@@ -237,8 +239,8 @@ class MinesweeperAI():
                             new_cells.remove(tuple)
                         new_count -= sentence_1.count
                         new_sentences.add(Sentence(new_cells, new_count))
-                        check(sentence_1)
-                        check(sentence_2)
+                        self.check(sentence_1)
+                        self.check(sentence_2)
                     elif sentence_2.cells.issubset(sentence_1.cells):
                         new_cells = set(sentence_1.cells)
                         new_count = sentence_1.count
@@ -246,20 +248,20 @@ class MinesweeperAI():
                             new_cells.remove(tuple)
                         new_count -= sentence_2.count
                         new_sentences.add(Sentence(new_cells, new_count))
-                        check(sentence_1)
-                        check(sentence_2)
+                        self.check(sentence_1)
+                        self.check(sentence_2)
 
         for eachSentence in new_sentences:
             self.knowledge.add(eachSentence)
-            check(eachSentence)
+            self.check(eachSentence.cells)
 
 
     def check(self, checking_set):
         if bool(checking_set.known_mines()):
-            for element in checking_set:
+            for element in checking_set.known_mines():
                 self.mines.add(element)
         elif bool(checking_set.known_safes()):
-            for element in checking_set:
+            for element in checking_set.known_safes():
                 self.safes.add(element)
 
     def make_safe_move(self):
