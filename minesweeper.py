@@ -106,7 +106,7 @@ class Sentence():
         Returns the set of all cells in self.cells known to be mines.
         """
 
-        if self.count = len(self.cells):
+        if self.count == len(self.cells):
             return set(self.cells)
         else:
             return set()
@@ -116,7 +116,7 @@ class Sentence():
         Returns the set of all cells in self.cells known to be safe.
         """
 
-        if self.count = 0:
+        if self.count == 0:
             return set(self.cells)
         else:
             return set()
@@ -216,9 +216,9 @@ class MinesweeperAI():
         for i in [cell[0] - 1, cell[0], cell[0] + 1]:
             for j in [cell[1] - 1, cell[1], cell[1] + 1]:
                 if 0 <= i and i <= height - 1 and 0 <= j and j <= height - 1 and (i != cell[0] or j != cell[1]):
-                    if (i, j) is in self.mines:
-                        count -= 1;
-                    else if (i, j) is not in self.safes:
+                    if (i, j) in set(self.mines):
+                        count -= 1
+                    elif (i, j) not in set(self.safes):
                         sentence_set.add((i, j))
 
         self.knowledge.add(Sentence(sentence_set, count))
@@ -239,7 +239,7 @@ class MinesweeperAI():
                         new_sentences.add(Sentence(new_cells, new_count))
                         check(sentence_1)
                         check(sentence_2)
-                    else if sentence_2.cells.issubset(sentence_1.cells):
+                    elif sentence_2.cells.issubset(sentence_1.cells):
                         new_cells = set(sentence_1.cells)
                         new_count = sentence_1.count
                         for tuple in sentence_2.cells:
@@ -258,7 +258,7 @@ class MinesweeperAI():
         if bool(checking_set.known_mines()):
             for element in checking_set:
                 self.mines.add(element)
-        else if bool(checking_set.known_safes()):
+        elif bool(checking_set.known_safes()):
             for element in checking_set:
                 self.safes.add(element)
 
@@ -273,7 +273,7 @@ class MinesweeperAI():
         """
 
         for tuple in self.safes:
-            if tuple is not in self.moves_made:
+            if tuple not in set(self.moves_made):
                 return tuple
 
     def make_random_move(self):
@@ -287,6 +287,6 @@ class MinesweeperAI():
         for i in range(self.height):
             for j in range(self.width):
                 tuple = (i, j)
-                if tuple is not in self.moves_made:
-                    if tuple is not in self.mines:
+                if tuple not in set(self.moves_made):
+                    if tuple not in set(self.mines):
                         return tuple
